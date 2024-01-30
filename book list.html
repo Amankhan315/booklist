@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .main {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color:wheat;
+            gap: 15px;
+            /* border: 1px solid; */
+        }
+
+        .box {
+            height: 20vh;
+            width: 28%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            color: black;
+            /* border: 1px solid; */
+        }
+
+        .box2 {
+            height: 50vh;
+            width: 80%;
+            display: flex;
+            box-shadow: 0px 2px 5px 5px gray;
+            border-radius: 10px;
+            /* border: 1px solid; */
+        }
+
+        .chlidbox {
+            height: 50vh;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            /* border: 1px solid; */
+        }
+
+        .formgroup {
+            height: 20vh;
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            /* border: 1px solid; */
+        }
+
+        label {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .inp {
+            height: 6vh;
+            width: 90%;
+            box-shadow: 0px 2px 2px 2px aqua;
+            border: none;
+        }
+
+        .inp2 {
+            height: 6vh;
+            width: 90%;
+            box-shadow: 0px 2px 2px 2px aqua;
+            border: none;
+        }
+
+        .btn {
+            height: 6vh;
+            width: 60%;
+            background-color: rgb(39, 27, 27);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .ul {
+            height: 7vh;
+            width: 80%;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            padding-left: 5%;
+            list-style: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            box-shadow: 5px 5px 5px 5px gray;
+            /* border: 1px solid; */
+        }
+
+        .boxlong {
+            height: auto;
+            width: 90%;
+            visibility: hidden;
+            /* border: 1px solid; */
+        }
+
+        .visi {
+            visibility: visible;
+        }
+
+        .flexes {
+            height: 7vh;
+            width: 75%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            box-shadow: 0px 2px 2px 2px gray;
+            border-radius: 5px;
+            cursor: pointer;
+            /* border: 1px solid rebeccapurple; */
+        }
+
+        .visi2 {
+            display: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="box">My Book List</div>
+        <div class="box2">
+            <form class="chlidbox">
+                <div class="formgroup">
+                    <label for="Title">Title</label>
+                    <input type="text" name="" class="inp">
+
+                </div>
+                <div class="formgroup">
+                    <label for="Author">Author</label>
+                    <input type="text" name="" class="inp2">
+                </div>
+
+                <button class="btn">Add Bookmark</button>
+            </form>
+            <div class="chlidbox">
+                <ul class="ul">
+                    <li>Title</li>
+                    <li>Author</li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <div class="boxlong"></div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script>
+        let chlidbox = document.querySelector(".chlidbox");
+        let inp = document.querySelector(".inp");
+        let inp2 = document.querySelector(".inp2");
+        let boxlong = document.querySelector(".boxlong");
+
+        chlidbox.addEventListener("submit", clicking);
+
+        function clicking(e) {
+            e.preventDefault();
+
+            boxlong.classList.add("visi");
+
+            let vin = inp.value;
+            let vin2 = inp2.value;
+
+            const objform = document.createElement("div");
+            objform.classList.add("flexes");
+            objform.innerHTML = `
+                <p>${vin}</p>
+                <p>${vin2}</p>
+                <p class="delete" onclick="removing(this)">X</p>
+                <p class="edit" onclick="edit(this)">Edit</p>
+                <p class="up" onclick="moveUp(this)">Up</p>
+                <p class="down" onclick="moveDown(this)">Down</p>
+            `;
+
+            boxlong.appendChild(objform);
+
+            inp.value = "";
+            inp2.value = "";
+        }
+
+        function removing(e) {
+            if (e.classList.contains('delete')) {
+                e.parentElement.remove();
+            }
+        }
+
+        function edit(e) {
+            if (e.innerHTML === "Edit") {
+                const parentDiv = e.parentElement;
+
+                const paragraphs = parentDiv.querySelectorAll("p");
+                const text1 = paragraphs[0].textContent;
+                const text2 = paragraphs[1].textContent;
+
+                inp.value = text1;
+                inp2.value = text2;
+
+                e.innerHTML = "Update";
+            } else {
+                let update1 = inp.value;
+                let update2 = inp2.value;
+
+                const parentDiv = e.parentElement;
+                const paragraphs = parentDiv.querySelectorAll("p");
+                paragraphs[0].textContent = update1;
+                paragraphs[1].textContent = update2;
+
+                e.innerHTML = "Edit";
+            }
+        }
+
+        function moveUp(e) {
+            const parentDiv = e.parentElement;
+            const previousSibling = parentDiv.previousElementSibling;
+
+            if (previousSibling) {
+                parentDiv.parentElement.insertBefore(parentDiv, previousSibling);
+            }
+        }
+
+        function moveDown(e) {
+            const parentDiv = e.parentElement;
+            const nextSibling = parentDiv.nextElementSibling;
+
+            if (nextSibling) {
+                parentDiv.parentElement.insertBefore(nextSibling, parentDiv);
+            }
+        }
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>
